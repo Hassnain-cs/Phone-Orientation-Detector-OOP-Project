@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="Phone-Orientation-Detector/Phone-Orientation-Detector.vcxproj" />
+</Solution>
