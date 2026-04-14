@@ -151,6 +151,7 @@
     <Text Include="..\..\..\..\Downloads\testingData.txt" />
     <Text Include="..\..\..\..\Downloads\trainingData.txt" />
     <Text Include="..\..\..\..\Downloads\unknownData.txt" />
+    <Text Include="test_small.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
