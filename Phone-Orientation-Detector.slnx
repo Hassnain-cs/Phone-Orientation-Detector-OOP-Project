@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="Phone-Orientation-Detector/Phone-Orientation-Detector.vcxproj" />
+  <Project Path="Phone-Orientation-Detector/Phone-Orientation-Detector.vcxproj" Id="9a1c3118-a791-48a6-92e9-7816f5b8fe46" />
 </Solution>

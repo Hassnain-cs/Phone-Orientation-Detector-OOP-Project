@@ -5,6 +5,7 @@
 #include <cmath>
 #include <limits>
 #include <algorithm>
+#include <string>
 
 // Constructor, nothing special needed here
 NNClassifier::NNClassifier() {
@@ -72,7 +73,6 @@ std::pair<int, double> NNClassifier::classifyWithConfidence(double x, double y, 
         return std::make_pair(-1, 0.0);
     }
 
-    // Collect all distances with their labels
     std::vector<std::pair<double, int>> allDistances;
 
     for (size_t i = 0; i < trainingDataX.size(); i++) {
@@ -80,17 +80,18 @@ std::pair<int, double> NNClassifier::classifyWithConfidence(double x, double y, 
             trainingDataX[i],
             trainingDataY[i],
             trainingDataZ[i]);
+
         allDistances.push_back(std::make_pair(dist, trainingLabels[i]));
     }
 
-    // Sort by distance to find nearest neighbors
     std::sort(allDistances.begin(), allDistances.end());
 
     int predictedLabel = allDistances[0].second;
     double nearestDistance = allDistances[0].first;
 
-    // Find the second nearest sample that has a different label
-    double secondNearestDistance = nearestDistance;
+    // FIX: properly find second nearest DIFFERENT label
+    double secondNearestDistance = -1;
+
     for (size_t i = 1; i < allDistances.size(); i++) {
         if (allDistances[i].second != predictedLabel) {
             secondNearestDistance = allDistances[i].first;
@@ -98,20 +99,17 @@ std::pair<int, double> NNClassifier::classifyWithConfidence(double x, double y, 
         }
     }
 
-    // Calculate confidence as a percentage
-    double confidencePercent;
-    if (secondNearestDistance == 0.0) {
-        confidencePercent = 100.0;
-    }
-    else {
-        confidencePercent = (secondNearestDistance / (nearestDistance + secondNearestDistance)) * 100.0;
+    // If no different label found, fallback safely
+    if (secondNearestDistance < 0) {
+        secondNearestDistance = nearestDistance;
     }
 
-    // Keep confidence within bounds
+    double confidencePercent = (secondNearestDistance / (nearestDistance + secondNearestDistance)) * 100.0;
+
     if (confidencePercent < 0.0) confidencePercent = 0.0;
     if (confidencePercent > 100.0) confidencePercent = 100.0;
 
-    return std::make_pair(predictedLabel, confidencePercent);
+    return { predictedLabel, confidencePercent };
 }
 
 // Return the name of this classifier
