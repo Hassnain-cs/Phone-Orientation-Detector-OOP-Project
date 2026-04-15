@@ -13,7 +13,7 @@ private:
 public:
     OrientationMapper();
 
-    std::string getOrientation(int label) const;
+    std::string getOrientationName(int label) const;
     bool isValidLabel(int label) const;
 };
 

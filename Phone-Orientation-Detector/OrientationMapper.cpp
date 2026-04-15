@@ -17,7 +17,7 @@ void OrientationMapper::initializeMap() {
 }
 
 // Convert label ? readable orientation
-std::string OrientationMapper::getOrientation(int label) const {
+std::string OrientationMapper::getOrientationName(int label) const {
     auto it = labelToOrientation.find(label);
 
     if (it != labelToOrientation.end()) {
