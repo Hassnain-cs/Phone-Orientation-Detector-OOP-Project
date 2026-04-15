@@ -153,10 +153,9 @@ void Application::handleManualInputMode() {
     }
 
     // Get prediction from classifier
-    int predictedLabel = currentClassifier->classify(input.xAxis, input.yAxis, input.zAxis);
-
-    // Get confidence if using NN classifier
+    int predictedLabel = 0;
     double confidence = 0.0;
+
     NNClassifier* nnClassifier = dynamic_cast<NNClassifier*>(currentClassifier.get());
     if (nnClassifier) {
         auto result = nnClassifier->classifyWithConfidence(input.xAxis, input.yAxis, input.zAxis);
