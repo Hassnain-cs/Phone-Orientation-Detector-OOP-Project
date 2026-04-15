@@ -1,12 +1,12 @@
 // Application.cpp
 // Implementation of the main application controller
-// Ties together UI, FileHandler, and Classifier components
+// Ties together UI, DataPersistence, and Classifier components
 
 #include "Application.h"
 #include "NNClassifier.h"
 #include "AnotherClassifier.h"
 #include "KNNClassifier.h"
-#include "FileHandler.h"
+#include "DataPersistence.h"
 #include <chrono>
 #include <iostream>
 
@@ -108,10 +108,10 @@ bool Application::initialize() {
 }
 
 bool Application::loadTrainingDataFile() {
-    int count = FileHandler::loadTrainingData("trainingData.txt", trainX, trainY, trainZ, trainLabels);
+    int count = DataPersistence::read("trainingData.txt", trainX, trainY, trainZ, trainLabels);
 
     if (count > 0) {
-        FileHandler::showTrainingStatistics(trainLabels);
+        DataPersistence::showTrainingStatistics(trainLabels);
         return true;
     }
 
@@ -164,7 +164,7 @@ void Application::handleManualInputMode() {
     }
     else {
         predictedLabel = currentClassifier->classify(input.xAxis, input.yAxis, input.zAxis);
-        confidence = 100.0; // Default for stub classifiers
+        confidence = 100.0;
     }
 
     input.orientationLabel = predictedLabel;
@@ -177,7 +177,7 @@ void Application::handleManualInputMode() {
 void Application::handleFileInputMode() {
     std::string filename = ui.askForFilename("Enter data file name (example: unknownData.txt): ");
 
-    std::vector<DataPoint> dataPoints = FileHandler::loadUnknownData(filename);
+    std::vector<DataPoint> dataPoints = DataPersistence::read(filename);
 
     if (dataPoints.empty()) {
         ui.showErrorMessage("No data found in file or file is empty.");
@@ -187,7 +187,7 @@ void Application::handleFileInputMode() {
     ui.showInfoMessage("Processing " + std::to_string(dataPoints.size()) + " samples...");
 
     // Validate and fix any out of range values
-    int fixedCount = FileHandler::validateAndFixData(dataPoints);
+    int fixedCount = DataPersistence::validateAndFixData(dataPoints);
     if (fixedCount > 0) {
         ui.showWarningMessage(std::to_string(fixedCount) + " samples were corrected to [-1, 1] range.");
     }
@@ -205,7 +205,7 @@ void Application::handleFileInputMode() {
 
     std::string outFilename = ui.askForFilename("Enter output file name (example: result.txt): ");
 
-    if (FileHandler::saveResults(outFilename, dataPoints)) {
+    if (DataPersistence::write(outFilename, dataPoints)) {
         ui.showSuccessMessage("Results saved to: " + outFilename);
     }
     else {
@@ -221,7 +221,7 @@ void Application::runAccuracyTest() {
     std::vector<double> testX, testY, testZ;
     std::vector<int> testLabels;
 
-    int count = FileHandler::loadTrainingData("testingData.txt", testX, testY, testZ, testLabels);
+    int count = DataPersistence::read("testingData.txt", testX, testY, testZ, testLabels);
 
     if (count <= 0) {
         ui.showErrorMessage("Could not load testingData.txt");

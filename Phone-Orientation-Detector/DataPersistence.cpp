@@ -1,10 +1,12 @@
-#include "FileHandler.h"
+// DataPersistence.cpp
+// Implementation of data persistence operations
+
+#include "DataPersistence.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
 
 // Helper function to convert label number to orientation name
-// Used internally to set the orientationName field
 static std::string getLabelName(int label) {
     if (label == 1) return "Face up";
     if (label == 2) return "Face down";
@@ -15,10 +17,8 @@ static std::string getLabelName(int label) {
     return "Unknown";
 }
 
-// Reads training data from file
-// Each line format: x,y,z,label
-// Returns number of samples read, or -1 if file not found
-int FileHandler::loadTrainingData(const std::string& filename,
+// Reads training data from file (with labels)
+int DataPersistence::read(const std::string& filename,
     std::vector<double>& outXValues,
     std::vector<double>& outYValues,
     std::vector<double>& outZValues,
@@ -26,7 +26,6 @@ int FileHandler::loadTrainingData(const std::string& filename,
 
     std::ifstream file(filename);
 
-    // Check if file opened successfully
     if (!file.is_open()) {
         std::cout << "ERROR: Could not open file: " << filename << std::endl;
         return -1;
@@ -36,7 +35,6 @@ int FileHandler::loadTrainingData(const std::string& filename,
     int count = 0;
 
     while (std::getline(file, line)) {
-        // Skip empty lines
         if (line.empty()) continue;
 
         std::stringstream ss(line);
@@ -44,23 +42,23 @@ int FileHandler::loadTrainingData(const std::string& filename,
         double x, y, z;
         int label;
 
-        // Parse x
         std::getline(ss, token, ',');
         x = std::stod(token);
 
-        // Parse y
         std::getline(ss, token, ',');
         y = std::stod(token);
 
-        // Parse z
         std::getline(ss, token, ',');
         z = std::stod(token);
 
-        // Parse label
         std::getline(ss, token, ',');
         label = std::stoi(token);
 
-        // Store into output vectors
+        // Clamp to valid range
+        if (x < -1.0) x = -1.0; if (x > 1.0) x = 1.0;
+        if (y < -1.0) y = -1.0; if (y > 1.0) y = 1.0;
+        if (z < -1.0) z = -1.0; if (z > 1.0) z = 1.0;
+
         outXValues.push_back(x);
         outYValues.push_back(y);
         outZValues.push_back(z);
@@ -74,14 +72,11 @@ int FileHandler::loadTrainingData(const std::string& filename,
 }
 
 // Reads unknown data file (no labels)
-// Each line format: x,y,z
-// Returns vector of DataPoint objects with label set to -1
-std::vector<DataPoint> FileHandler::loadUnknownData(const std::string& filename) {
+std::vector<DataPoint> DataPersistence::read(const std::string& filename) {
 
     std::vector<DataPoint> points;
     std::ifstream file(filename);
 
-    // Check if file opened successfully
     if (!file.is_open()) {
         std::cout << "ERROR: Could not open file: " << filename << std::endl;
         return points;
@@ -90,26 +85,21 @@ std::vector<DataPoint> FileHandler::loadUnknownData(const std::string& filename)
     std::string line;
 
     while (std::getline(file, line)) {
-        // Skip empty lines
         if (line.empty()) continue;
 
         std::stringstream ss(line);
         std::string token;
         double x, y, z;
 
-        // Parse x
         std::getline(ss, token, ',');
         x = std::stod(token);
 
-        // Parse y
         std::getline(ss, token, ',');
         y = std::stod(token);
 
-        // Parse z
         std::getline(ss, token, ',');
         z = std::stod(token);
 
-        // Create DataPoint with label -1 (unknown)
         DataPoint dp(x, y, z, -1);
         points.push_back(dp);
     }
@@ -118,21 +108,17 @@ std::vector<DataPoint> FileHandler::loadUnknownData(const std::string& filename)
     return points;
 }
 
-// Writes classification results to output file
-// Each line format: x,y,z,label,orientationName
-// Returns true if successful, false otherwise
-bool FileHandler::saveResults(const std::string& filename,
+// Writes results to file
+bool DataPersistence::write(const std::string& filename,
     const std::vector<DataPoint>& results) {
 
     std::ofstream file(filename);
 
-    // Check if file opened successfully
     if (!file.is_open()) {
         std::cout << "ERROR: Could not create file: " << filename << std::endl;
         return false;
     }
 
-    // Write each result as a line
     for (size_t i = 0; i < results.size(); i++) {
         file << results[i].xAxis << ","
             << results[i].yAxis << ","
@@ -146,15 +132,13 @@ bool FileHandler::saveResults(const std::string& filename,
     return true;
 }
 
-// Shows training data distribution after loading
-// Extra credit: displays count and percentage per orientation
-void FileHandler::showTrainingStatistics(const std::vector<int>& labels) {
+// Shows training data distribution
+void DataPersistence::showTrainingStatistics(const std::vector<int>& labels) {
 
-    int total = labels.size();
+    int total = static_cast<int>(labels.size());
+    int counts[7] = { 0 };
 
-    // Count how many samples per label
-    int counts[7] = { 0 }; // index 1 to 6
-    for (int i = 0; i < labels.size(); i++) {
+    for (size_t i = 0; i < labels.size(); i++) {
         int label = labels[i];
         if (label >= 1 && label <= 6) {
             counts[label]++;
@@ -166,31 +150,26 @@ void FileHandler::showTrainingStatistics(const std::vector<int>& labels) {
     std::cout << "-> Total samples: " << total << std::endl;
     std::cout << "-> Distribution:" << std::endl;
 
-    // Print each orientation
     for (int label = 1; label <= 6; label++) {
         double percent = (counts[label] * 100.0) / total;
         std::cout << "   " << getLabelName(label)
             << ": " << counts[label]
             << " samples ("
-            << (int)percent << "%)"
+            << static_cast<int>(percent) << "%)"
             << std::endl;
     }
     std::cout << std::endl;
 }
 
-// Checks all data points for values outside [-1, 1]
-// Warns user and auto corrects them
-// Extra credit: outlier detection
-int FileHandler::validateAndFixData(std::vector<DataPoint>& points) {
+// Validates and fixes out of range values
+int DataPersistence::validateAndFixData(std::vector<DataPoint>& points) {
 
     int fixedCount = 0;
 
-    for (int i = 0; i < points.size(); i++) {
+    for (size_t i = 0; i < points.size(); i++) {
 
-        // Check if this point has invalid values
         if (!points[i].areGravityValuesValid()) {
 
-            // Warn the user about each bad value
             if (points[i].xAxis < -1.0 || points[i].xAxis > 1.0) {
                 std::cout << "WARNING: Data point #" << (i + 1)
                     << " has x = " << points[i].xAxis
@@ -207,7 +186,6 @@ int FileHandler::validateAndFixData(std::vector<DataPoint>& points) {
                     << " (outside valid range [-1,1])" << std::endl;
             }
 
-            // Auto correct the values
             points[i].clampGravityValues();
             std::cout << "-> Auto-corrected to valid range" << std::endl;
 

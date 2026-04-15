@@ -30,7 +30,7 @@
     <ClInclude Include="DataPoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FileHandler.h">
+    <ClInclude Include="DataPersistence.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="UserInterface.h">
@@ -59,7 +59,7 @@
     <ClCompile Include="DataPoint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FileHandler.cpp">
+    <ClCompile Include="DataPersistence.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="UserInterface.cpp">
@@ -85,5 +85,6 @@
     <Text Include="..\..\..\..\Downloads\trainingData.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="test_small.txt" />
   </ItemGroup>
 </Project>

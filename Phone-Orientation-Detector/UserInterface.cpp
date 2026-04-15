@@ -1,6 +1,6 @@
 // UserInterface.cpp
 // Implementation of console user interface with colored output and menus
-
+#include "UserInterface.h"
 // Define NOMINMAX before including windows.h to prevent max/min macro conflicts
 #ifdef _WIN32
 #define NOMINMAX
@@ -9,7 +9,7 @@
 #include <cstdlib>
 #endif
 
-#include "UserInterface.h"
+
 #include <iostream>
 #include <limits>
 #include <iomanip>

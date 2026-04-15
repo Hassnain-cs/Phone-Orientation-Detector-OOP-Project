@@ -131,7 +131,7 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="Classifier.h" />
     <ClInclude Include="DataPoint.h" />
-    <ClInclude Include="FileHandler.h" />
+    <ClInclude Include="DataPersistence.h" />
     <ClInclude Include="KNNClassifier.h" />
     <ClInclude Include="NNClassifier.h" />
     <ClInclude Include="OrientationMapper.h" />
@@ -142,7 +142,7 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Classifier.cpp" />
     <ClCompile Include="DataPoint.cpp" />
-    <ClCompile Include="FileHandler.cpp" />
+    <ClCompile Include="DataPersistence.cpp" />
     <ClCompile Include="KNNClassifier.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NNClassifier.cpp" />
