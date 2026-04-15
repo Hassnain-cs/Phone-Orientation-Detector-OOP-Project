@@ -1,4 +1,3 @@
-#pragma once
 // UserInterface.h
 // Handles all console input and output for the application
 // Demonstrates separation of concerns - UI is separate from logic
@@ -14,9 +13,6 @@ class UserInterface {
 private:
     // Clears the console screen (works on both Windows and Unix)
     void clearConsoleScreen() const;
-
-    // Prints text with color for better user experience
-    void printWithColor(const std::string& text, int colorCode) const;
 
 public:
     // Constructor
@@ -58,6 +54,10 @@ public:
 
     // Waits for user to press enter before continuing
     void waitForUserInput() const;
+
+    // Prints text with color for better user experience
+    // Made public so Application can use it for test results
+    void printWithColor(const std::string& text, int colorCode) const;
 };
 
 #endif
