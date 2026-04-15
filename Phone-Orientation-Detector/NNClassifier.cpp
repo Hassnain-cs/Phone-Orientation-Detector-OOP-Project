@@ -5,9 +5,8 @@
 #include <cmath>
 #include <limits>
 #include <algorithm>
-#include <string>
 
-// Constructor, nothing special needed here
+// Constructor
 NNClassifier::NNClassifier() {
 }
 
@@ -22,11 +21,10 @@ double NNClassifier::calculateEuclideanDistance(double x1, double y1, double z1,
     double diffX = x1 - x2;
     double diffY = y1 - y2;
     double diffZ = z1 - z2;
-
     return std::sqrt(diffX * diffX + diffY * diffY + diffZ * diffZ);
 }
 
-// Store the training data in our protected member variables
+// Store the training data in protected member variables
 // This data will be used later when classifying new samples
 void NNClassifier::train(const std::vector<double>& xValues,
     const std::vector<double>& yValues,
@@ -73,6 +71,7 @@ std::pair<int, double> NNClassifier::classifyWithConfidence(double x, double y, 
         return std::make_pair(-1, 0.0);
     }
 
+    // Collect all distances with their labels
     std::vector<std::pair<double, int>> allDistances;
 
     for (size_t i = 0; i < trainingDataX.size(); i++) {
@@ -80,18 +79,17 @@ std::pair<int, double> NNClassifier::classifyWithConfidence(double x, double y, 
             trainingDataX[i],
             trainingDataY[i],
             trainingDataZ[i]);
-
         allDistances.push_back(std::make_pair(dist, trainingLabels[i]));
     }
 
+    // Sort by distance to find nearest neighbors
     std::sort(allDistances.begin(), allDistances.end());
 
     int predictedLabel = allDistances[0].second;
     double nearestDistance = allDistances[0].first;
 
-    // FIX: properly find second nearest DIFFERENT label
+    // Find the second nearest sample that has a different label
     double secondNearestDistance = -1;
-
     for (size_t i = 1; i < allDistances.size(); i++) {
         if (allDistances[i].second != predictedLabel) {
             secondNearestDistance = allDistances[i].first;
@@ -99,17 +97,19 @@ std::pair<int, double> NNClassifier::classifyWithConfidence(double x, double y, 
         }
     }
 
-    // If no different label found, fallback safely
+    // If no different label found, use the same distance as fallback
     if (secondNearestDistance < 0) {
         secondNearestDistance = nearestDistance;
     }
 
+    // Calculate confidence as a percentage
     double confidencePercent = (secondNearestDistance / (nearestDistance + secondNearestDistance)) * 100.0;
 
+    // Keep confidence within bounds
     if (confidencePercent < 0.0) confidencePercent = 0.0;
     if (confidencePercent > 100.0) confidencePercent = 100.0;
 
-    return { predictedLabel, confidencePercent };
+    return std::make_pair(predictedLabel, confidencePercent);
 }
 
 // Return the name of this classifier
