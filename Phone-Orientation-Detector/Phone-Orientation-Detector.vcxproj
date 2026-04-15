@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{9a1c3118-a791-48a6-92e9-7816f5b8fe46}</ProjectGuid>
+    <ProjectGuid>{34528DFE-7AB4-E802-022E-D1F5E9805841}</ProjectGuid>
     <RootNamespace>PhoneOrientationDetector</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
