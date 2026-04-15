@@ -133,7 +133,7 @@ bool FileHandler::saveResults(const std::string& filename,
     }
 
     // Write each result as a line
-    for (int i = 0; i < results.size(); i++) {
+    for (size_t i = 0; i < results.size(); i++) {
         file << results[i].xAxis << ","
             << results[i].yAxis << ","
             << results[i].zAxis << ","
