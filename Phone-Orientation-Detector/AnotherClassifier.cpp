@@ -1,5 +1,9 @@
-// AnotherClassifier.cpp
-// Stub implementation for a future classifier
+/**
+ * @file AnotherClassifier.cpp
+ * @brief Implements the placeholder AnotherClassifier class.
+ * @author Fabio Bustamante Romillo
+ * @date April 2026
+ */
 
 #include "AnotherClassifier.h"
 #include <iostream>

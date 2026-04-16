@@ -1,14 +1,19 @@
-// UserInterface.cpp
-// Implementation of console user interface with colored output and menus
+/**
+ * @file UserInterface.cpp
+ * @brief Implements the console-based user interface.
+ * @author Muhammad Hassnain
+ * @date April 2026
+ */
+
 #include "UserInterface.h"
-// Define NOMINMAX before including windows.h to prevent max/min macro conflicts
+
+ // Define NOMINMAX before including windows.h to prevent max/min macro conflicts
 #ifdef _WIN32
 #define NOMINMAX
 #include <windows.h>
 #else
 #include <cstdlib>
 #endif
-
 
 #include <iostream>
 #include <limits>

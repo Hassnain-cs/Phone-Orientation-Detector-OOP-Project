@@ -1,5 +1,9 @@
-// KNNClassifier.cpp
-// Stub implementation for K-Nearest Neighbor classifier
+/**
+ * @file KNNClassifier.cpp
+ * @brief Implements the placeholder K-Nearest Neighbor classifier.
+ * @author 
+ * @date April 2026
+ */
 
 #include "KNNClassifier.h"
 #include <iostream>

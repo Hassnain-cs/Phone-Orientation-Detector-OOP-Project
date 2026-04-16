@@ -1,8 +1,11 @@
-#pragma once
-// AnotherClassifier.h
-// Stub classifier that is not fully implemented yet
-// This demonstrates how new classifiers can be added to the system
+/**
+ * @file AnotherClassifier.h
+ * @brief Defines a placeholder classifier for future extension.
+ * @author Fabio Bustamante Romillo
+ * @date April 2026
+ */
 
+#pragma once
 #ifndef ANOTHERCLASSIFIER_H
 #define ANOTHERCLASSIFIER_H
 
@@ -10,29 +13,56 @@
 #include <string>
 #include <vector>
 
+ /**
+  * @class AnotherClassifier
+  * @brief Placeholder classifier that demonstrates future extensibility.
+  *
+  * This class is not fully implemented yet. It exists to show how new
+  * classifier types can be added to the system through inheritance.
+  */
 class AnotherClassifier : public Classifier {
 private:
-    // Some dummy vector as placeholder for future implementation
-    // This was shown in the professor's diagram
+    /**
+     * @brief Placeholder internal vector for possible future implementation.
+     */
     std::vector<int> someInternalVector;
 
 public:
-    // Constructor
+    /**
+     * @brief Constructs an AnotherClassifier object.
+     */
     AnotherClassifier();
 
-    // Destructor
+    /**
+     * @brief Destroys an AnotherClassifier object.
+     */
     ~AnotherClassifier();
 
-    // Stub implementation - just prints a message
+    /**
+     * @brief Placeholder training function for this classifier.
+     * @param xValues Vector of x-axis training values.
+     * @param yValues Vector of y-axis training values.
+     * @param zValues Vector of z-axis training values.
+     * @param labels Vector of training labels.
+     */
     void train(const std::vector<double>& xValues,
         const std::vector<double>& yValues,
         const std::vector<double>& zValues,
         const std::vector<int>& labels) override;
 
-    // Stub implementation - prints message and returns negative one
+    /**
+     * @brief Placeholder classify function for this classifier.
+     * @param x X-axis gravity value.
+     * @param y Y-axis gravity value.
+     * @param z Z-axis gravity value.
+     * @return Placeholder label value.
+     */
     int classify(double x, double y, double z) override;
 
-    // Returns the name of this classifier
+    /**
+     * @brief Returns the name of this classifier.
+     * @return Classifier name as a string.
+     */
     std::string getClassifierName() const override;
 };
 
