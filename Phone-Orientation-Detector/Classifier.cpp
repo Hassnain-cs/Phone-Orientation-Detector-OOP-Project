@@ -1,6 +1,12 @@
-// Classifier.cpp
-// Abstract base class - no implementation needed
-// All methods are pure virtual, destructor is defined in header as = default
+/**
+ * @file Classifier.cpp
+ * @brief Implements the abstract base classifier file.
+ * @author Everyone
+ * @date April 2026
+ */
+
+ // Abstract base class - no implementation needed
+ // All methods are pure virtual, destructor is defined in header as = default
 
 #include "Classifier.h"
 

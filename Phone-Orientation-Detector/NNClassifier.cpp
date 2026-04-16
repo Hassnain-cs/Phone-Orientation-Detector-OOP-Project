@@ -1,16 +1,18 @@
-// NNClassifier.cpp
-// Implementation of the Nearest Neighbor classifier
+/**
+ * @file NNClassifier.cpp
+ * @brief Implements the Nearest Neighbor classifier.
+ * @author Fabio Bustamante Romillo
+ * @date April 2026
+ */
 
 #include "NNClassifier.h"
 #include <cmath>
 #include <limits>
 #include <algorithm>
 
-// Constructor
 NNClassifier::NNClassifier() {
 }
 
-// Destructor
 NNClassifier::~NNClassifier() {
 }
 
@@ -112,7 +114,6 @@ std::pair<int, double> NNClassifier::classifyWithConfidence(double x, double y, 
     return std::make_pair(predictedLabel, confidencePercent);
 }
 
-// Return the name of this classifier
 std::string NNClassifier::getClassifierName() const {
     return "Nearest Neighbor Classifier";
 }

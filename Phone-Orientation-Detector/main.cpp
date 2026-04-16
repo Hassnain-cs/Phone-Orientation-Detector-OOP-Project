@@ -1,6 +1,9 @@
-// main.cpp
-// Entry point for the Phone Orientation Detector application
-// This program uses machine learning to detect phone orientation from gravity data
+/**
+ * @file main.cpp
+ * @brief Entry point for the Phone Orientation Detector application.
+ * @author Muhammad Hassnain
+ * @date April 2026
+ */
 
 #include "Application.h"
 #include <iostream>
