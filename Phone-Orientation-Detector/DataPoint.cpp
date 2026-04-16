@@ -1,13 +1,16 @@
-// DataPoint.cpp
-// Implementation of the DataPoint structure
-// Handles gravity data storage and validation
+/**
+ * @file DataPoint.cpp
+ * @brief Implements the DataPoint structure methods.
+ * @author Raj Bahadur Bhat
+ * @date April 2026
+ */
 
 #include "DataPoint.h"
 #include <sstream>
 #include <iomanip>
 
-// Default constructor
-// Sets everything to zero and label to -1 (unknown)
+ // Default constructor
+ // Sets everything to zero and label to -1 (unknown)
 DataPoint::DataPoint() {
     xAxis = 0.0;
     yAxis = 0.0;

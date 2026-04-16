@@ -1,12 +1,16 @@
-// DataPersistence.cpp
-// Implementation of data persistence operations
+/**
+ * @file DataPersistence.cpp
+ * @brief Implements file reading, writing, validation, and reporting operations.
+ * @author Raj Bahadur Bhat
+ * @date April 2026
+ */
 
 #include "DataPersistence.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
 
-// Helper function to convert label number to orientation name
+ // Helper function to convert label number to orientation name
 static std::string getLabelName(int label) {
     if (label == 1) return "Face up";
     if (label == 2) return "Face down";

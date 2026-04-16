@@ -1,44 +1,70 @@
-#pragma once
-// Classifier.h
-// Base abstract class for all phone orientation classifiers
-// This class cannot be instantiated, it only defines the interface
+/**
+ * @file Classifier.h
+ * @brief Defines the abstract base class for all phone orientation classifiers.
+ * @author Fabio Bustamante Romillo, Muhammad Hassnain, and Raj Bahadur Bhat
+ * @date April 2026
+ */
 
+#pragma once
 #ifndef CLASSIFIER_H
 #define CLASSIFIER_H
 
 #include <vector>
 #include <string>
 
+ /**
+  * @class Classifier
+  * @brief Abstract base class that defines the common interface for all classifiers.
+  *
+  * This class stores training data and forces all derived classifier classes
+  * to implement training, classification, and classifier naming behavior.
+  * It cannot be instantiated directly because it contains pure virtual methods.
+  */
 class Classifier {
 protected:
-
-    // Training data stored in the base class so all derived classes can access it
-
+    /** @brief Training x-axis gravity values. */
     std::vector<double> trainingDataX;
+
+    /** @brief Training y-axis gravity values. */
     std::vector<double> trainingDataY;
+
+    /** @brief Training z-axis gravity values. */
     std::vector<double> trainingDataZ;
+
+    /** @brief Training labels associated with the gravity samples. */
     std::vector<int> trainingLabels;
 
 public:
-    // Virtual destructor for proper cleanup of derived classes
-
+    /**
+     * @brief Virtual destructor for safe polymorphic cleanup.
+     */
     virtual ~Classifier() {}
 
-    // Pure virtual function, must be implemented by all derived classes
-    // Takes training data and stores it for later classification
-
+    /**
+     * @brief Stores training data for the classifier.
+     * @param xValues Vector of x-axis gravity values.
+     * @param yValues Vector of y-axis gravity values.
+     * @param zValues Vector of z-axis gravity values.
+     * @param labels Vector of orientation labels corresponding to the samples.
+     */
     virtual void train(const std::vector<double>& xValues,
         const std::vector<double>& yValues,
         const std::vector<double>& zValues,
         const std::vector<int>& labels) = 0;
 
-    // Pure virtual function, must be implemented by all derived classes
-    // Classifies a single sample
-    // Returns the predicted orientation label (1 through 6)
-
+    /**
+     * @brief Predicts the orientation label for a single gravity sample.
+     * @param x X-axis gravity value.
+     * @param y Y-axis gravity value.
+     * @param z Z-axis gravity value.
+     * @return Predicted orientation label.
+     */
     virtual int classify(double x, double y, double z) = 0;
 
-    // Returns the name of the classifier as a string
+    /**
+     * @brief Returns the name of the classifier.
+     * @return Classifier name as a string.
+     */
     virtual std::string getClassifierName() const = 0;
 };
 

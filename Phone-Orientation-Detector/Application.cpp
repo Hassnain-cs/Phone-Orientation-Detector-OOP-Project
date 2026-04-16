@@ -1,6 +1,9 @@
-// Application.cpp
-// Implementation of the main application controller
-// Ties together UI, DataPersistence, and Classifier components
+/**
+ * @file Application.cpp
+ * @brief Implements the main application controller.
+ * @author Muhammad Hassnain
+ * @date April 2026
+ */
 
 #include "Application.h"
 #include "NNClassifier.h"
